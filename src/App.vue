@@ -1,7 +1,10 @@
 <template>
   <div class="container">
     <div class="header">
-      <h1>在线收款</h1>
+      <div class="logo-container">
+        <img src="/logo.png" alt="Logo" class="logo" />
+        <h1>在线收款</h1>
+      </div>
       <p>安全、快捷的支付方式</p>
     </div>
     
@@ -342,5 +345,17 @@ export default {
 
 .btn-secondary:hover {
   background-color: #0e5ecc;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.logo {
+  height: 40px;
+  margin-right: 10px;
 }
 </style> 
