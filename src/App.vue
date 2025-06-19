@@ -47,16 +47,18 @@
       
       <div v-if="showQR" class="qr-container">
         <p>请使用{{ paymentMethod === 'wechat' ? '微信' : '支付宝' }}扫描下方二维码完成支付</p>
-        <qrcode-vue :value="qrValue" :size="200" level="H" />
+        <img :src="getQRCodeSrc()" class="qr-image" alt="收款码" />
         <p class="amount-display">￥{{ amount }}</p>
+        <p class="description-display">{{ description || '在线收款' }}</p>
+        <p class="note">请备注上方金额，否则可能导致订单无法完成</p>
       </div>
       
       <button 
         class="btn" 
         :class="paymentMethod === 'wechat' ? 'btn-primary' : 'btn-secondary'"
-        @click="generateQR"
+        @click="showQRCode"
       >
-        生成{{ paymentMethod === 'wechat' ? '微信' : '支付宝' }}收款码
+        显示{{ paymentMethod === 'wechat' ? '微信' : '支付宝' }}收款码
       </button>
     </div>
     
@@ -65,47 +67,35 @@
       <p>1. 输入您想要收款的金额</p>
       <p>2. 可选择填写收款说明</p>
       <p>3. 选择支付方式（微信/支付宝）</p>
-      <p>4. 点击生成收款码按钮</p>
-      <p>5. 让付款方扫描生成的二维码完成支付</p>
+      <p>4. 点击显示收款码按钮</p>
+      <p>5. 扫描二维码并支付显示的金额</p>
     </div>
   </div>
 </template>
 
 <script>
-import QrcodeVue from 'qrcode.vue'
-
 export default {
   name: 'App',
-  components: {
-    QrcodeVue
-  },
   data() {
     return {
       amount: '',
       description: '',
       paymentMethod: 'wechat',
       showQR: false,
-      qrValue: ''
     }
   },
   methods: {
-    generateQR() {
+    showQRCode() {
       if (!this.amount || this.amount <= 0) {
         alert('请输入有效金额');
         return;
       }
       
-      // 生成支付链接 (这里是模拟的)
-      // 实际应用中应该调用微信/支付宝API生成真实的支付链接
-      if (this.paymentMethod === 'wechat') {
-        // 微信支付码格式
-        this.qrValue = `wxp://f2f0${this.amount}/${this.description || '在线收款'}`;
-      } else {
-        // 支付宝支付码格式
-        this.qrValue = `https://qr.alipay.com/fkx${this.amount}/${this.description || '在线收款'}`;
-      }
-      
       this.showQR = true;
+    },
+    getQRCodeSrc() {
+      // 使用预设的收款码图片
+      return this.paymentMethod === 'wechat' ? '/wechat-pay.png' : '/alipay.png';
     }
   }
 }
@@ -116,5 +106,115 @@ export default {
   font-size: 24px;
   font-weight: bold;
   margin-top: 10px;
+}
+
+.description-display {
+  margin-top: 5px;
+  font-size: 16px;
+}
+
+.note {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #ff4d4f;
+}
+
+.qr-image {
+  max-width: 200px;
+  max-height: 200px;
+  margin: 10px auto;
+  display: block;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.tab-container {
+  display: flex;
+  margin: 20px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.tab {
+  padding: 10px 20px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+.tab.active {
+  border-bottom: 2px solid #1890ff;
+  color: #1890ff;
+}
+
+.qr-container {
+  text-align: center;
+  margin: 20px 0;
+  padding: 20px;
+  border: 1px dashed #ddd;
+  border-radius: 4px;
+}
+
+.btn {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-primary {
+  background-color: #1aad19;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #129611;
+}
+
+.btn-secondary {
+  background-color: #1677ff;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #0e5ecc;
 }
 </style> 
