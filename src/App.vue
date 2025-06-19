@@ -47,10 +47,14 @@
       
       <div v-if="showQR" class="qr-container">
         <p>请使用{{ paymentMethod === 'wechat' ? '微信' : '支付宝' }}扫描下方二维码完成支付</p>
-        <img :src="getQRCodeSrc()" class="qr-image" alt="收款码" />
+        <div class="qr-wrapper">
+          <img :src="getQRCodeSrc()" class="qr-image" alt="收款码" @click="openFullImage" />
+          <div class="qr-tip">点击二维码可查看大图</div>
+        </div>
         <p class="amount-display">￥{{ amount }}</p>
         <p class="description-display">{{ description || '在线收款' }}</p>
         <p class="note">请备注上方金额，否则可能导致订单无法完成</p>
+        <button class="save-btn" @click="openFullImage">查看大图</button>
       </div>
       
       <button 
@@ -68,7 +72,18 @@
       <p>2. 可选择填写收款说明</p>
       <p>3. 选择支付方式（微信/支付宝）</p>
       <p>4. 点击显示收款码按钮</p>
-      <p>5. 扫描二维码并支付显示的金额</p>
+      <p>5. 点击二维码可查看大图</p>
+      <p>6. 扫描二维码并支付显示的金额</p>
+    </div>
+    
+    <!-- 全屏二维码模态框 -->
+    <div v-if="showFullImage" class="modal" @click="closeFullImage">
+      <div class="modal-content" @click.stop>
+        <span class="close-btn" @click="closeFullImage">&times;</span>
+        <img :src="getQRCodeSrc()" class="full-qr-image" alt="收款码大图" />
+        <p class="modal-amount">￥{{ amount }}</p>
+        <p class="modal-tip">长按图片可保存或识别</p>
+      </div>
     </div>
   </div>
 </template>
@@ -82,6 +97,7 @@ export default {
       description: '',
       paymentMethod: 'wechat',
       showQR: false,
+      showFullImage: false
     }
   },
   methods: {
@@ -96,6 +112,12 @@ export default {
     getQRCodeSrc() {
       // 使用预设的收款码图片
       return this.paymentMethod === 'wechat' ? '/wechat-pay.png' : '/alipay.png';
+    },
+    openFullImage() {
+      this.showFullImage = true;
+    },
+    closeFullImage() {
+      this.showFullImage = false;
     }
   }
 }
@@ -119,17 +141,121 @@ export default {
   color: #ff4d4f;
 }
 
+.qr-wrapper {
+  position: relative;
+  margin: 0 auto;
+  width: fit-content;
+}
+
+.qr-tip {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #666;
+}
+
 .qr-image {
-  max-width: 200px;
-  max-height: 200px;
-  margin: 10px auto;
+  max-width: 300px; /* 增大尺寸 */
+  width: 80%; /* 确保在移动设备上占据足够宽度 */
+  height: auto;
+  margin: 15px auto;
   display: block;
+  border: 1px solid #eee; /* 添加边框使图片更清晰 */
+  padding: 10px; /* 添加内边距 */
+  background-color: white; /* 确保背景为白色以提高对比度 */
+  cursor: pointer;
+}
+
+.save-btn {
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  padding: 8px 15px;
+  border-radius: 4px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.save-btn:hover {
+  background: #e0e0e0;
+}
+
+/* 模态框样式 */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 90%;
+  position: relative;
+  text-align: center;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+}
+
+.full-qr-image {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+}
+
+.modal-amount {
+  font-size: 28px;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+.modal-tip {
+  margin-top: 10px;
+  color: #666;
 }
 
 .container {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 10px;
+  }
+  
+  .qr-image {
+    max-width: 100%;
+    width: 90%;
+  }
+  
+  .amount-display {
+    font-size: 28px;
+  }
+  
+  .modal-content {
+    width: 90%;
+    padding: 15px;
+  }
+  
+  .full-qr-image {
+    width: 100%;
+  }
 }
 
 .header {
