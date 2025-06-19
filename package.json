@@ -1,0 +1,24 @@
+{
+  "name": "money-collection",
+  "version": "1.0.0",
+  "description": "一个简单的收款网站，支持微信和支付宝",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "payment",
+    "wechat",
+    "alipay"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "vue": "^3.3.4",
+    "vite": "^4.4.9",
+    "@vitejs/plugin-vue": "^4.2.3",
+    "qrcode.vue": "^3.4.1"
+  }
+} 
