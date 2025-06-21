@@ -41,6 +41,10 @@ import Notes from './components/Notes.vue'
 import Countdown from './components/Countdown.vue'
 import PaymentCode from './components/PaymentCode.vue'
 import Investment from './components/Investment.vue'
+import FinanceNews from './components/FinanceNews.vue'
+import SavingsGoal from './components/SavingsGoal.vue'
+import FinancialTips from './components/FinancialTips.vue'
+import ERDiagram from './components/ERDiagram.vue'
 
 export default {
   name: 'App',
@@ -51,18 +55,26 @@ export default {
     Notes,
     Countdown,
     PaymentCode,
-    Investment
+    Investment,
+    FinanceNews,
+    SavingsGoal,
+    FinancialTips,
+    ERDiagram
   },
   data() {
     return {
       activeTabIndex: 0,
       tabs: [
+        { name: 'ER图工具', component: 'ERDiagram' },
         { name: '天气查询', component: 'Weather' },
         { name: '汇率转换', component: 'CurrencyConverter' },
         { name: '每日名言', component: 'DailyQuote' },
         { name: '便签记事', component: 'Notes' },
         { name: '纪念日', component: 'Countdown' },
         { name: '投资理财', component: 'Investment' },
+        { name: '财经新闻', component: 'FinanceNews' },
+        { name: '存钱目标', component: 'SavingsGoal' },
+        { name: '财务知识', component: 'FinancialTips' },
         { name: '收款码', component: 'PaymentCode' }
       ]
     }

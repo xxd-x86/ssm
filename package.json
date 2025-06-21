@@ -16,9 +16,10 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "vue": "^3.3.4",
-    "vite": "^4.4.9",
     "@vitejs/plugin-vue": "^4.2.3",
-    "qrcode.vue": "^3.4.1"
+    "mermaid": "^11.7.0",
+    "qrcode.vue": "^3.4.1",
+    "vite": "^4.4.9",
+    "vue": "^3.3.4"
   }
-} 
+}
