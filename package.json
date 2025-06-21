@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "npm run build && xcopy /E /I /Y dist docs && copy CNAME docs\\ && echo 完成部署准备，现在可以提交到GitHub了"
   },
   "keywords": [
     "payment",
